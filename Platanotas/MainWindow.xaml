@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Platanotas" Height="450" Width="800"
         WindowStyle="None"
-        AllowsTransparency="True" Background="Transparent"
+        AllowsTransparency="True" Background="#01FFFFFF"
         ResizeMode="CanResize"
         WindowState="Maximized">
 
@@ -16,7 +16,7 @@
         <Style x:Key="WindowControlButton" TargetType="Button">
             <Setter Property="Width" Value="46"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#01FFFFFF"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -37,9 +37,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-        <!-- Specific style for close button -->
         <Style x:Key="CloseButtonStyle" BasedOn="{StaticResource WindowControlButton}" TargetType="Button">
+
+
+            <!-- Specific style for close button -->
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#E81123"/>
@@ -48,9 +49,8 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Style for menu items -->
         <Style x:Key="CustomMenuItem" TargetType="MenuItem">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#01FFFFFF"/>
             <Setter Property="Foreground" Value="#333333"/>
             <Setter Property="Padding" Value="8,4"/>
             <Setter Property="BorderThickness" Value="0"/>
@@ -64,52 +64,154 @@
         <Style x:Key="ToolButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="4"/>
-            <Setter Property="Background" Value="LightGray"/>
-            <Setter Property="BorderBrush" Value="DarkGray"/>
-            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="#01FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#01FFFFFF"/>
+            <Setter Property="Foreground" Value="White"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Background" Value="#E5E5E5"/>
+                    <Setter Property="Foreground" Value="Black"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <!-- Circular Tool Button Style -->
+        <Style x:Key="CircularToolButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="#2C2C2C" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="5" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E5E5" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!-- Circular Color Button Style -->
+        <Style x:Key="ColorButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="4" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="White" />
+                    <Setter Property="BorderThickness" Value="2" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--Tooltips-->
+        <Style TargetType="ToolTip">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+
 
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!-- Title Bar -->
+        <!-- Title Bar -->
         <Border Grid.Row="0" Background="#2C2C2C" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
             <DockPanel LastChildFill="True">
                 <!--<Image DockPanel.Dock="Left" Source="/Images/icon.png" Width="20" Height="20" 
-                       Margin="8,0,0,0" VerticalAlignment="Center"/>-->
+                    Margin="8,0,0,0" VerticalAlignment="Center"/>-->
                 <TextBlock Text="Platanotas" Foreground="#E0E0E0" VerticalAlignment="Center" 
-                         Margin="8,0" FontSize="13" FontWeight="Medium"/>
+                        Margin="8,0" FontSize="13" FontWeight="Medium"/>
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
-                    <Button Content="−" Style="{StaticResource WindowControlButton}" 
-                            Click="MinimizeButton_Click"/>
-                    <Button Content="□" Style="{StaticResource WindowControlButton}" 
-                            Click="MaximizeButton_Click"/>
-                    <Button Content="×" Style="{StaticResource CloseButtonStyle}" 
-                            Click="CloseButton_Click"/>
+                    <Button Content="−" FontSize="20" Style="{StaticResource WindowControlButton}" 
+                        Click="MinimizeButton_Click"/>
+                    <Button Content="□" FontSize="20" Style="{StaticResource WindowControlButton}" 
+                        Click="MaximizeButton_Click"/>
+                    <Button Content="X" FontSize="20" Style="{StaticResource CloseButtonStyle}" 
+                        Click="CloseButton_Click"/>
                 </StackPanel>
             </DockPanel>
         </Border>
 
-        <!-- Tools Menu -->
-        <!-- Pencil Button -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-            <Button Name="BrushConfigButton" Content="Brush" Click="BrushConfigButton_Click" Style="{StaticResource ToolButtonStyle}" />
-            <Button Name="PencilButton" Content="Pencil" Click="PencilButton_Click" Style="{StaticResource ToolButtonStyle}" />
-            <Button Name="RectangleButton" Content="Rectangle" Click="RectangleButton_Click" Style="{StaticResource ToolButtonStyle}" />
-            <Button Name="FilledRectangleButton" Content="Filled Rectangle" Click="FilledRectangleButton_Click" Style="{StaticResource ToolButtonStyle}" />
-            <Button Name="LineButton" Content="Line" Click="LineButton_Click" Style="{StaticResource ToolButtonStyle}" />
+            <!-- Tools Menu -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
+                <!-- Color Buttons -->
+                <Button Width="20" Height="20" Background="Black" Click="SetBrushColor" Tag="Black" Margin="2"/>
+                <Button Width="20" Height="20" Background="White" Click="SetBrushColor" Tag="White" Margin="2"/>
+                <Button Width="20" Height="20" Background="Red" Click="SetBrushColor" Tag="Red" Margin="2"/>
+                <Button Width="20" Height="20" Background="Orange" Click="SetBrushColor" Tag="Orange" Margin="2"/>
+                <Button Width="20" Height="20" Background="Yellow" Click="SetBrushColor" Tag="Yellow" Margin="2"/>
+                <!-- Gradient Buttons -->
+                <Button Width="20" Height="20" Click="SetBrushGradient" Tag="BlueToPurple" Margin="2">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Blue" Offset="0.0" />
+                            <GradientStop Color="Purple" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Width="20" Height="20" Click="SetBrushGradient" Tag="RedToYellow" Margin="2">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Red" Offset="0.0" />
+                            <GradientStop Color="Yellow" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Width="20" Height="20" Click="SetBrushGradient" Tag="GreenToBlue" Margin="2">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Green" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Width="20" Height="20" Click="SetBrushGradient" Tag="GreenToYellow" Margin="2">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Green" Offset="0.0" />
+                            <GradientStop Color="Yellow" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+            </WrapPanel>
+            
+            <!-- Tool Buttons -->
+            <Button Name="BrushConfigButton" Style="{StaticResource CircularToolButtonStyle}" Click="BrushConfigButton_Click" ToolTip="Brush">
+                <TextBlock Text="🖌" FontSize="18" />
+            </Button>
+            <Button Name="PencilButton" Style="{StaticResource CircularToolButtonStyle}" Click="PencilButton_Click" ToolTip="Pencil">
+                <TextBlock Text="✏" FontSize="18" />
+            </Button>
+            <Button Name="RectangleButton" Style="{StaticResource CircularToolButtonStyle}" Click="RectangleButton_Click" ToolTip="Rectangle">
+                <TextBlock Text="▭" FontSize="18" />
+            </Button>
+            <Button Name="LineButton" Style="{StaticResource CircularToolButtonStyle}" Click="LineButton_Click" ToolTip="Line">
+                <TextBlock Text="⎯" FontSize="18" />
+            </Button>
+            
+
+            <!-- Color and Gradient Buttons -->
+            
         </StackPanel>
+
 
 
 
@@ -123,33 +225,7 @@
                     <!-- Colors Section -->
                     <TextBlock Text="Colors" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
                     <WrapPanel HorizontalAlignment="Center" ItemWidth="24" ItemHeight="24">
-                        <!-- Color Buttons -->
-                        <Button Width="20" Height="20" Background="Black" Click="SetBrushColor" Tag="Black" Margin="2"/>
-                        <Button Width="20" Height="20" Background="White" Click="SetBrushColor" Tag="White" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Red" Click="SetBrushColor" Tag="Red" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Orange" Click="SetBrushColor" Tag="Orange" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Yellow" Click="SetBrushColor" Tag="Yellow" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Green" Click="SetBrushColor" Tag="Green" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Blue" Click="SetBrushColor" Tag="Blue" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Purple" Click="SetBrushColor" Tag="Purple" Margin="2"/>
-                        <Button Width="20" Height="20" Background="Pink" Click="SetBrushColor" Tag="Pink" Margin="2"/>
-                        <!-- Gradient Buttons -->
-                        <Button Width="20" Height="20" Click="SetBrushGradient" Tag="BlueToPurple" Margin="2">
-                            <Button.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="Blue" Offset="0.0" />
-                                    <GradientStop Color="Purple" Offset="1.0" />
-                                </LinearGradientBrush>
-                            </Button.Background>
-                        </Button>
-                        <Button Width="20" Height="20" Click="SetBrushGradient" Tag="RedToYellow" Margin="2">
-                            <Button.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="Red" Offset="0.0" />
-                                    <GradientStop Color="Yellow" Offset="1.0" />
-                                </LinearGradientBrush>
-                            </Button.Background>
-                        </Button>
+                        
                     </WrapPanel>
 
                     <!-- Brush Size Section -->
@@ -169,7 +245,7 @@
         <Canvas Name="DrawingCanvas" Grid.Row="2" Cursor="Pen">
             <Rectangle Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
-                       Fill="Black" Opacity="0.1"/>
+                       Fill="#01FFFFFF"/>
         </Canvas>
     </Grid>
 

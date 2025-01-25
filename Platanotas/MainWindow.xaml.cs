@@ -128,6 +128,8 @@ namespace Platanotas
                     rectangle.Height = Math.Abs(currentPoint.Y - startPoint.Y);
                     Canvas.SetLeft(rectangle, Math.Min(currentPoint.X, startPoint.X));
                     Canvas.SetTop(rectangle, Math.Min(currentPoint.Y, startPoint.Y));
+                    rectangle.RadiusX = 10; // Set corner radius
+                    rectangle.RadiusY = 10; // Set corner radius
                 }
             }
             // Update preview line
@@ -205,6 +207,9 @@ namespace Platanotas
                         break;
                     case "GreenToBlue":
                         currentBrush = new LinearGradientBrush(Colors.Green, Colors.Blue, 45);
+                        break;
+                    case "GreenToYellow":
+                        currentBrush = new LinearGradientBrush(Colors.Green, Colors.Yellow, 45);
                         break;
                     default:
                         currentBrush = Brushes.Black;
