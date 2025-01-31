@@ -1,4 +1,5 @@
 ﻿using Platanotas.Models;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Shapes;
 
 namespace Platanotas
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -20,7 +22,7 @@ namespace Platanotas
         private bool isDrawing = false;
         private Point startPoint;
         private Polyline? currentPolyline;
-        private Brush currentBrush = Brushes.Red;
+        private Brush currentBrush = BrushHelper.GetGradientBrush("BlueToPurple");
         private double currentBrushSize = 2;
         public enum DrawingTool
         {
@@ -39,11 +41,13 @@ namespace Platanotas
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this; // ¡Esta línea es crucial!
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             DrawingCanvas.MouseDown += DrawingCanvas_MouseDown;
             DrawingCanvas.MouseMove += DrawingCanvas_MouseMove;
             DrawingCanvas.MouseUp += DrawingCanvas_MouseUp;
         }
+
         private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
             currentTool = DrawingTool.Pencil;
@@ -72,6 +76,7 @@ namespace Platanotas
         {
             isDrawing = true;
             startPoint = e.GetPosition(DrawingCanvas);
+            currentBrush = BrushHelper.ChangeGradientAngle(currentBrush);
 
             if (currentTool == DrawingTool.Pencil)
             {
@@ -197,24 +202,7 @@ namespace Platanotas
         {
             if (sender is Button button && button.Tag is string gradientTag)
             {
-                switch (gradientTag)
-                {
-                    case "BlueToPurple":
-                        currentBrush = new LinearGradientBrush(Colors.Blue, Colors.Purple, 45);
-                        break;
-                    case "RedToYellow":
-                        currentBrush = new LinearGradientBrush(Colors.Red, Colors.Yellow, 45);
-                        break;
-                    case "GreenToBlue":
-                        currentBrush = new LinearGradientBrush(Colors.Green, Colors.Blue, 45);
-                        break;
-                    case "GreenToYellow":
-                        currentBrush = new LinearGradientBrush(Colors.Green, Colors.Yellow, 45);
-                        break;
-                    default:
-                        currentBrush = Brushes.Black;
-                        break;
-                }
+                currentBrush = BrushHelper.GetGradientBrush(gradientTag);
             }
         }
 
@@ -238,17 +226,7 @@ namespace Platanotas
 
         private Brush GetBrushByColor(string color)
         {
-            switch (color)
-            {
-                case "Red":
-                    return Brushes.Red;
-                case "Blue":
-                    return Brushes.Blue;
-                case "Green":
-                    return Brushes.Green;
-                default:
-                    return Brushes.Black; // Color por defecto
-            }
+            return BrushHelper.GetBrush(color);
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -265,9 +243,65 @@ namespace Platanotas
                 DragMove();
             }
         }
+
+
         public ICommand SelectPencilCommand => new RelayCommand(_ => currentTool = DrawingTool.Pencil);
         public ICommand SelectRectangleCommand => new RelayCommand(_ => currentTool = DrawingTool.Rectangle);
         public ICommand SelectLineCommand => new RelayCommand(_ => currentTool = DrawingTool.Line);
 
+        public ICommand OpenColorEyeDropCommand => new RelayCommand(OpenColorEyeDrop);
+
+        private void OpenColorEyeDrop(object parameter)
+        {
+            Mouse.OverrideCursor = Cursors.Cross;
+
+            var hook = new MouseHook(); // El hook se inicia automáticamente aquí
+            hook.MouseDown += (s, e) =>
+            {
+                var color = GetColorAtCursorPosition();
+                currentBrush = new SolidColorBrush(color);
+                Mouse.OverrideCursor = null;
+                hook.Dispose();
+            };
+            // Eliminar hook.Start();
+        }
+
+        private Color GetColorAtCursorPosition()
+        {
+            GetCursorPos(out POINT point);
+            IntPtr hdc = GetDC(IntPtr.Zero);
+            uint pixel = GetPixel(hdc, point.X, point.Y);
+            ReleaseDC(IntPtr.Zero, hdc);
+
+            // Convertir BGR a RGB
+            return Color.FromRgb(
+                (byte)(pixel & 0x000000FF),
+                (byte)((pixel & 0x0000FF00) >> 8),
+                (byte)((pixel & 0x00FF0000) >> 16));
+        }
+
+
+// Dentro de la clase MainWindow:
+
+[DllImport("user32.dll")]
+    static extern IntPtr GetDC(IntPtr hwnd);
+
+    [DllImport("user32.dll")]
+    static extern int ReleaseDC(IntPtr hwnd, IntPtr hdc);
+
+    [DllImport("gdi32.dll")]
+    static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool GetCursorPos(out POINT lpPoint);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct POINT
+    {
+        public int X;
+        public int Y;
     }
+
+}
 }

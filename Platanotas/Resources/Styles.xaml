@@ -1,0 +1,155 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<!-- Style for window control buttons -->
+	<Style x:Key="WindowControlButton" TargetType="Button">
+		<Setter Property="Width" Value="46"/>
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="Background" Value="#01FFFFFF"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="FontSize" Value="14"/>
+		<Setter Property="FontWeight" Value="Bold"/>
+		<Setter Property="Foreground" Value="#CCCCCC"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Background="{TemplateBinding Background}">
+						<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Background" Value="#1FFFFFFF"/>
+				<Setter Property="Foreground" Value="White"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+	
+	<Style x:Key="CloseButtonStyle" BasedOn="{StaticResource WindowControlButton}" TargetType="Button">
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Background" Value="#ba000d"/>
+				<Setter Property="Foreground" Value="White"/>
+			</Trigger>
+		</Style.Triggers>
+		<Setter Property="Foreground" Value="#ba000d"/>
+	</Style>
+
+	<Style x:Key="CustomMenuItem" TargetType="MenuItem">
+		<Setter Property="Background" Value="#01FFFFFF"/>
+		<Setter Property="Foreground" Value="#333333"/>
+		<Setter Property="Padding" Value="8,4"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Background" Value="#E5E5E5"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="ToolButtonStyle" TargetType="Button">
+		<Setter Property="Margin" Value="5"/>
+		<Setter Property="Padding" Value="4"/>
+		<Setter Property="Background" Value="#01FFFFFF"/>
+		<Setter Property="BorderBrush" Value="#01FFFFFF"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="Background" Value="#E5E5E5"/>
+				<Setter Property="Foreground" Value="Black"/>
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<!-- Circular Tool Button Style -->
+	<Style x:Key="MaterialColorButton" TargetType="Button">
+		<Setter Property="Width" Value="24"/>
+		<Setter Property="Height" Value="24"/>
+		<Setter Property="Margin" Value="4"/>
+		<Setter Property="BorderThickness" Value="2"/>
+		<Setter Property="BorderBrush" Value="Transparent"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<Ellipse x:Name="ColorCircle"
+							   Fill="{TemplateBinding Background}"
+							   Stroke="{TemplateBinding BorderBrush}"
+							   StrokeThickness="{TemplateBinding BorderThickness}"/>
+						<Ellipse x:Name="HoverOverlay"
+							   Fill="#20FFFFFF"
+							   Opacity="0"/>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="HoverOverlay" Property="Opacity" Value="1"/>
+						</Trigger>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="HoverOverlay" Property="Fill" Value="#40000000"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!-- Circular Color Button Style -->
+	<Style x:Key="ColorButtonStyle" TargetType="Button">
+		<Setter Property="Width" Value="24" />
+		<Setter Property="Height" Value="24" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="Red" />
+		<Setter Property="Margin" Value="4" />
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="BorderBrush" Value="White" />
+				<Setter Property="BorderThickness" Value="2" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+	<!--Tooltips-->
+	<Style TargetType="ToolTip">
+		<Setter Property="Background" Value="LightGray" />
+		<Setter Property="Foreground" Value="Black" />
+		<Setter Property="FontSize" Value="14" />
+		<Setter Property="BorderBrush" Value="DarkGray" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Padding" Value="5" />
+	</Style>
+
+	<Style x:Key="MaterialToolButton" TargetType="Button">
+		<Setter Property="Width" Value="40"/>
+		<Setter Property="Height" Value="40"/>
+		<Setter Property="Margin" Value="4"/>
+		<Setter Property="Background" Value="#01FFFFFF"/>
+		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="FontSize" Value="18"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Grid>
+						<Border x:Name="BackgroundBorder"
+								Background="#01FFFFFF"
+								CornerRadius="4"
+								Effect="{TemplateBinding Effect}">
+							<ContentPresenter HorizontalAlignment="Center"
+											  VerticalAlignment="Center"/>
+						</Border>
+						<Border x:Name="RippleEffect" Background="#20000000" Opacity="0"/>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="BackgroundBorder" Property="Background" Value="#0FFFFFFF"/>
+						</Trigger>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="RippleEffect" Property="Opacity" Value="0.2"/>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+</ResourceDictionary>
